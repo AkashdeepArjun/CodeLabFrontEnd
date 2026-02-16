@@ -6,6 +6,7 @@ html{
 
 .card{
 
+    position: relative;
     background-color: pink;
     padding: 1rem;
     margin-bottom: 0.75rem;
@@ -19,6 +20,15 @@ html{
 
 }
 
+
+.del_button {
+
+    background-color: red;
+    padding: 0.5rem;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
 
 .name,  
 .price{

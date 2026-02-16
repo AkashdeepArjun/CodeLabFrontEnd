@@ -27,6 +27,29 @@ import Skeleton from "./Skeleton";
      const [page,updatePage] = useState(1);
 
 
+     const delete_product = async (id) => {
+
+         if(!window.confirm('are you sure')){
+             return;
+         }
+         try {
+            
+            
+             await axios.delete(`http://127.0.0.1:8000/api/products/${id}`);
+
+             fetch_products();
+
+
+
+         } catch (error) {
+            
+             console.log("could not delete given product",error);
+         }
+
+
+     }
+
+
 
 
 
@@ -129,6 +152,8 @@ import Skeleton from "./Skeleton";
 
                 <p className={styles["price"]}>{product.price} </p>
 
+                <button className={styles["del_button"]} onClick={() => delete_product(product.id)}>DELETE </button>
+
 
                 </div>
 
@@ -146,19 +171,7 @@ import Skeleton from "./Skeleton";
 
         
 
-        { products && products.map(p=>(
-
-            <div key={p.id} >
-
-            <h3> {p.name}</h3>
-
-            <p> {p.price} </p>
-
-
-            </div>
-
-
-        ))}
+      
             
 
 
