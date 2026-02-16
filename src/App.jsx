@@ -11,7 +11,6 @@ function App() {
 
   return (
     <>
-      <h1>Popular Products</h1>
         <ProductsList />
 
     </>

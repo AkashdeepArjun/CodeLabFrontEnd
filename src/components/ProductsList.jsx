@@ -1,7 +1,11 @@
 import { useEffect,useState } from "react";
 
+import styles from './ProductsList.module.css';
+
+
 import axios from "axios";
 import ProductForm from "./ProductForm";
+import Skeleton from "./Skeleton";
 
  export default function ProductsList(){
 
@@ -14,6 +18,8 @@ import ProductForm from "./ProductForm";
     const [min_price,updateMinPrice] =useState("");
 
     const [max_price,updateMaxPrice] = useState("");
+
+     const [loading,setLoading] = useState(true);
 
      // pagination logic 
      
@@ -33,6 +39,7 @@ import ProductForm from "./ProductForm";
             
             console.log(res.data.data);
              setProducts(res.data.data);
+            setLoading(false)
             
          updatePagination(res.data);
             }catch(error){
@@ -73,7 +80,7 @@ import ProductForm from "./ProductForm";
 
         
 
-        <div style={{backgroundColor:"brown",overflow:"scroll",width:"20rem",height:"50rem"}}>
+        <div >
     
         <div >
 
@@ -102,6 +109,42 @@ import ProductForm from "./ProductForm";
         <h2> Popular Products </h2>
 
         <ProductForm onProductCreated={addNewProduct}/>
+
+        {loading?(
+            Array.from({length:5}).map((_,index)=>(
+
+                <Skeleton key={index}/>
+
+
+
+
+            ))
+        ):(
+
+            products.map(product=>(
+
+                <div className={styles["card"]} key={product.id}> 
+
+                <h3 className={styles["name"]}>{product.name}</h3>
+
+                <p className={styles["price"]}>{product.price} </p>
+
+
+                </div>
+
+
+
+
+            ))
+
+
+
+        ) }
+
+
+
+
+        
 
         { products && products.map(p=>(
 
