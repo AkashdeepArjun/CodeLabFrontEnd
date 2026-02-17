@@ -1,0 +1,58 @@
+.modal-overlay{
+
+    background: rgba(0 , 0, 0, 0.5);
+
+    position:fixed;
+    
+    left:0;
+    
+    top: 0;
+
+    width: 100vw;
+
+    height: 100vh;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+
+   
+
+}
+
+
+.modal{
+
+    position: relative;
+    width: 19rem;
+    background: white;
+    border-radius: 0.5rem;
+   
+    padding: 1rem;
+
+}
+
+
+.close_button{
+
+    background-color: red;
+    padding: 0.25rem;
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+
+}
+
+
+.submit_button{
+
+    background-color: green;
+    padding: 0.25rem;
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0.5rem;
+
+
+}

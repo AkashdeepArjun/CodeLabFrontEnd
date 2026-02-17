@@ -2,10 +2,12 @@ import { useEffect,useState } from "react";
 
 import styles from './ProductsList.module.css';
 
+import { getProducts,addProduct,removeProduct ,updateProduct } from "../services/ProductServices";
 
 import axios from "axios";
 import ProductForm from "./ProductForm";
 import Skeleton from "./Skeleton";
+import ModalDialog from "./ModalDialog";
 
  export default function ProductsList(){
 
@@ -21,6 +23,23 @@ import Skeleton from "./Skeleton";
 
      const [loading,setLoading] = useState(true);
 
+     const [isEditDialogOpen ,setEditDialogOpen] =useState(false);
+
+    const [selectedProduct ,setSelectedProduct] = useState(null);
+
+
+
+     const openEditDialog = (product) =>{
+         setSelectedProduct(product);
+         setEditDialogOpen(true);
+
+     }
+
+
+
+
+
+
      // pagination logic 
      
      const  [pagination ,updatePagination] = useState(null);
@@ -35,7 +54,7 @@ import Skeleton from "./Skeleton";
          try {
             
             
-             await axios.delete(`http://127.0.0.1:8000/api/products/${id}`);
+             await removeProduct(id);
 
              fetch_products();
 
@@ -50,15 +69,26 @@ import Skeleton from "./Skeleton";
      }
 
 
+     const handle_update_product = async (id,product) =>{
+
+         await updateProduct(id,product);
+         setEditDialogOpen(false);
+         fetch_products();
+         
+
+
+     }
+
 
 
 
 
      const fetch_products = async ()=>{
 
-            try{  const res = await axios.get(`http://127.0.0.1:8000/api/products?search=${user_query}`,{
-                params:{search:debounced_query,min_price:min_price,max_price:max_price,page:page}}
-            );
+            try{ 
+            const res = await getProducts({
+
+                search: debounced_query,min_price:min_price,max_price:max_price,page:page});
             
             console.log(res.data.data);
              setProducts(res.data.data);
@@ -71,9 +101,18 @@ import Skeleton from "./Skeleton";
 
      };
 
-     const addNewProduct = (product) =>{
-         console.log("new product is ",product);
-         setProducts(old_array =>[product, ...old_array]);
+     const addNewProduct = async(product) =>{
+         // console.log("new product is ",product);
+         
+        try { 
+             setProducts(old_array =>[product, ...old_array]);
+         }catch(error){
+
+             console.log(error);
+         }
+
+
+
      }
 
 
@@ -103,7 +142,18 @@ import Skeleton from "./Skeleton";
 
         
 
-        <div >
+        <div className={styles["parent"]} >
+
+        {isEditDialogOpen && (<ModalDialog
+            product={selectedProduct}
+            onClose={()=>setEditDialogOpen(false)}
+            onUpdate={handle_update_product}
+
+
+            />)}
+
+
+
     
         <div >
 
@@ -121,9 +171,6 @@ import Skeleton from "./Skeleton";
 
         <input type="number" placeholder="enter min price" value={min_price} onChange={(e)=>updateMinPrice(e.target.value)}/>
         <input type="number" placeholder="enter max price" value={max_price} onChange={(e)=>updateMaxPrice(e.target.value)}/>
-
-    
-
 
         <input type="text" placeholder="search products ...."  value={user_query} onChange={(e)=>updateUserQuery(e.target.value)} />
             
@@ -153,7 +200,8 @@ import Skeleton from "./Skeleton";
                 <p className={styles["price"]}>{product.price} </p>
 
                 <button className={styles["del_button"]} onClick={() => delete_product(product.id)}>DELETE </button>
-
+                
+                <button className={styles["edit_button"]} onClick={()=> openEditDialog(product) }> EDIT</button>
 
                 </div>
 
