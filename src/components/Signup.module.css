@@ -1,0 +1,30 @@
+
+.parent {
+
+    display: flex;
+
+    background-color: yellowgreen ;
+
+    flex-direction: column;
+    
+    padding: 1rem;
+
+    width: 50rem;
+
+    height: 40rem;
+
+    align-items: center;
+
+    justify-content: center;
+    
+
+
+
+}
+
+
+input{
+
+    padding: 0.5rem;
+    
+}

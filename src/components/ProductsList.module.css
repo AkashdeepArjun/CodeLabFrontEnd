@@ -45,6 +45,16 @@ html{
 
 }
 
+.logout_button{
+
+    background-color: lightseagreen;
+    color: white;
+    position: absolute;
+    top: 0;
+    right: 0;
+
+
+}
 
 .name,  
 .price{

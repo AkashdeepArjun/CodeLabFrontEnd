@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import  axios from "axios";
-
+ import { addProduct } from "../services/ProductServices";
 
 export default function ProductForm({onProductCreated}){
 
@@ -12,11 +12,11 @@ export default function ProductForm({onProductCreated}){
 
     const [desc,setDesc] = useState('');
 
-    const addProduct = async (e) =>{
+    const addProd = async (e) =>{
 
         e.preventDefault();
         
-        const response = await axios.post("http://127.0.0.1:8000/api/products",{
+        const response = await addProduct({
 
         name,
         price,
@@ -33,7 +33,7 @@ export default function ProductForm({onProductCreated}){
 
     return(
     
-        <form onSubmit={addProduct}> 
+        <form onSubmit={addProd}> 
         
         <input type="text" value= {name} onChange={(e)=>setName(e.target.value)} placeholder="name"/>
         <input type="number" value= {price} onChange={(e)=>setPrice(e.target.value)} placeholder="price"/>

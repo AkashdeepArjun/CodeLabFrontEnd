@@ -1,0 +1,81 @@
+html{
+
+    font-size: 16px;
+
+}
+
+
+
+.parent {
+
+    position: relative;
+    left :25%;
+    top: 25%;
+    display: flex;
+    flex-direction: column;
+    width: 50rem;
+    height: 40rem;
+    background-color:#009b9b ;
+
+
+
+
+}
+
+
+
+input{
+
+    padding: 0.75rem;
+    border-radius: 10%;
+
+    width: 50%;
+    height: max-content;
+
+    justify-self: center;
+
+    align-self: center;
+
+
+}
+
+
+.parent > input:first-child {
+
+    margin-top: 10rem;
+
+}
+
+
+.login_button{
+
+    padding: 0.5rem;
+    background-color: purple;
+    color: white;
+    position: absolute;
+
+    top: 40%;
+    left: 5%;
+
+
+}
+
+.signup_button {
+
+    background-color: maroon;
+    color: white;
+    position: absolute;
+    top: 40%;
+    left: 35%;
+
+
+
+
+}
+
+
+
+
+
+
+

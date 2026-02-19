@@ -2,14 +2,18 @@ import { useEffect,useState } from "react";
 
 import styles from './ProductsList.module.css';
 
-import { getProducts,addProduct,removeProduct ,updateProduct } from "../services/ProductServices";
+import { getProducts,addProduct,removeProduct ,updateProduct, api_logout, get_current_user } from "../services/ProductServices";
 
 import axios from "axios";
 import ProductForm from "./ProductForm";
 import Skeleton from "./Skeleton";
 import ModalDialog from "./ModalDialog";
+import { useNavigate } from "react-router-dom";
 
  export default function ProductsList(){
+
+
+     const navigate = useNavigate();
 
     const [products,setProducts] =  useState([]);
 
@@ -36,6 +40,36 @@ import ModalDialog from "./ModalDialog";
      }
 
 
+     const logout = async (e) =>{
+
+        e.preventDefault();
+
+         try {
+
+ 
+            const response = await api_logout();
+
+             console.log(response);
+
+            localStorage.removeItem("token");
+             localStorage.removeItem("user");
+             navigate('/login');
+
+          
+
+
+
+            
+         } catch (error) {
+            console.log(" THE ERROR HAVE VISTED ",error);
+         }
+         
+           
+
+         
+
+
+     }
 
 
 
@@ -84,19 +118,18 @@ import ModalDialog from "./ModalDialog";
 
 
      const fetch_products = async ()=>{
-
+            
+            console.log(" FETCHING PRODUCTS WITH TOKEN ",localStorage.getItem("token"));
             try{ 
             const res = await getProducts({
-
-                search: debounced_query,min_price:min_price,max_price:max_price,page:page});
-            
-            console.log(res.data.data);
+            search: debounced_query,min_price:min_price,max_price:max_price,page:page});  
+            console.log("response we got was ",res);
              setProducts(res.data.data);
             setLoading(false)
             
          updatePagination(res.data);
             }catch(error){
-                 console.log(error);
+                 console.log("ERROR SPOOTTED ", error);
              }
 
      };
@@ -158,6 +191,9 @@ import ModalDialog from "./ModalDialog";
         <div >
 
 
+        
+
+
         <button disabled={!pagination?.prev_page_url} onClick={()=>updatePage(p=>p-1)} > PREVIOUS </button>
 
         <span> CURRENT PAGE {pagination?.current_page} OF {pagination?.last_page} </span>
@@ -168,6 +204,8 @@ import ModalDialog from "./ModalDialog";
 
 
         </div>
+
+        <button className={styles["logout_button"]} onClick={logout}> LOGOUT </button>
 
         <input type="number" placeholder="enter min price" value={min_price} onChange={(e)=>updateMinPrice(e.target.value)}/>
         <input type="number" placeholder="enter max price" value={max_price} onChange={(e)=>updateMaxPrice(e.target.value)}/>
@@ -199,9 +237,9 @@ import ModalDialog from "./ModalDialog";
 
                 <p className={styles["price"]}>{product.price} </p>
 
-                <button className={styles["del_button"]} onClick={() => delete_product(product.id)}>DELETE </button>
+                { get_current_user()?.role=='admin' && (<button className={styles["del_button"]} onClick={() => delete_product(product.id)}>DELETE </button>)}
                 
-                <button className={styles["edit_button"]} onClick={()=> openEditDialog(product) }> EDIT</button>
+                { get_current_user()?.role=='admin' &&  <button className={styles["edit_button"]} onClick={()=> openEditDialog(product) }> EDIT</button> }
 
                 </div>
 
