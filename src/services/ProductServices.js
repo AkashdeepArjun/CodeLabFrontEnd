@@ -1,7 +1,7 @@
 
 import axios from "axios";
 
-const API = axios.create({baseURL:"http://127.0.0.1:8000/api"});
+const API = axios.create({baseURL:"http://localhost:8000/api"});
 
 API.interceptors.request.use((config)=>{
 
@@ -10,6 +10,8 @@ API.interceptors.request.use((config)=>{
     if(token){
         config.headers.Authorization=`Bearer ${token}`
     }
+
+    config.headers.Accept="application/json";
 
     return config;
 

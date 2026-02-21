@@ -237,9 +237,9 @@ import { useNavigate } from "react-router-dom";
 
                 <p className={styles["price"]}>{product.price} </p>
 
-                { get_current_user()?.role=='admin' && (<button className={styles["del_button"]} onClick={() => delete_product(product.id)}>DELETE </button>)}
+                <button className={styles["del_button"]} onClick={() => delete_product(product.id)}>DELETE </button>
                 
-                { get_current_user()?.role=='admin' &&  <button className={styles["edit_button"]} onClick={()=> openEditDialog(product) }> EDIT</button> }
+                <button className={styles["edit_button"]} onClick={()=> openEditDialog(product) }> EDIT</button>
 
                 </div>
 
